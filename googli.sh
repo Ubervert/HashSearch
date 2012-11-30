@@ -1,19 +1,22 @@
 #!/bin/sh
+
+# AUTHOR:
+#	Timothy Byer <ubervert1989@gmail.com>
+# GIT: 
+#	https://github.com/Ubervert/Googli.git
 #
-#########################################
-# Author: Ubervert
-# Depends:
+# DEPENDS:
 #       jsawk
 #       curl
 #
-# Searches goog.li for hashes in its db
-# Takes the hash file name as an argument
-# 
-# Outputs to HASH_TYPE (of that hash)
-# Output format is similar to pot file
-# Hash:pass
-
-#########################################
+# OVERVIEW:
+#	This script will take in a file of hashes, using \n to separate hashes
+#	By default: Outputs to HASH_TYPE (of that hash)
+#			Output format is similar to john or hashcat pot file
+# 			Hash:pass
+#	You can supress output to stdout with -s
+#	You can specify to print to stdout exclusively with './googli.sh FILE -o -'
+#	You can specify a different file to send output to with -o
 
 errors=0
 supress=0
