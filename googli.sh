@@ -2,8 +2,10 @@
 
 # AUTHOR:
 #	Timothy Byer <ubervert1989@gmail.com>
+# LICENSE:
+#	This product is licensed under GPLv2 (or later)
 # GIT: 
-#	https://github.com/Ubervert/Googli.git
+#	https://github.com/Ubervert/HashSearch
 #
 # DEPENDS:
 #       jsawk
@@ -20,6 +22,7 @@
 
 errors=0
 supress=0
+out_bool=0
 file=0
 
 ## Checks for depends
@@ -41,6 +44,8 @@ if [ $# -lt 1 ] ; then
         exit
 fi
 
+hashes=`wc -l $1 | cut -f 1 -d ' '`
+
 ## Gets the parameters
 arglist=("$@")
 for args in `seq 1 $(($#-1))`
@@ -48,6 +53,7 @@ do
 	arg=$(($args+1))
 	if [ "${arglist[$args]}" = "-o" ]; then 
 		if [ $arg -lt $# ]; then
+			out_bool=1
 			file=${arglist[$arg]}
 		else
 			echo 'No output file given'
@@ -63,23 +69,23 @@ done
 ## Searches for the hashes!
 for line in $(cat $1)
 do
-        raw=`curl -ks https://goog.li/?j=$line`
+	raw=`curl -ks https://goog.li/?j=$line`
         result=`echo "$raw" | jsawk 'return this.found'`
         if [ "$result" = "true" ] ; then
                 digest=`echo "$raw" | jsawk 'return this.type'`
                 check=`echo "$raw" | jsawk "return this.hashes[0].$digest"`
                 pt=`echo "$raw" | jsawk 'return this.hashes[0].plaintext'`
                 if [ "$supress" = "0" ] ; then
-			if [ "$file" = " 0" ] ; then
+			if [ "$out_bool" = "0" ] ; then
 				echo $check':'$pt | tee -a $digest
 			else
 				echo $check':'$pt | tee -a $file
 			fi
 		else
-			if [ "$file"  = "-" ] ; then
+			if [ "$file" = "-" ] ; then
 				exit
 			else
-				if [ "$file" = "0" ] ; then
+				if [ "$out_bool" = "0" ] ; then
 					echo $check':'$pt >> $digest
 				else
 					echo $check':'$pt >> $file
