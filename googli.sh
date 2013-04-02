@@ -69,7 +69,7 @@ done
 ## Searches for the hashes!
 for line in $(cat $1)
 do
-	raw=`curl -ks https://goog.li/?j=$line`
+	raw=`curl --ssl-reqd -s https://goog.li/?j=$line`
         result=`echo "$raw" | jsawk 'return this.found'`
         if [ "$result" = "true" ] ; then
                 digest=`echo "$raw" | jsawk 'return this.type'`
