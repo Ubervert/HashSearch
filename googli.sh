@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # AUTHOR:
-#	Timothy Byer <ubervert1989@gmail.com>
+#	ubervert <ubervert1989@gmail.com>
 # LICENSE:
 #	This product is licensed under GPLv2 (or later)
 # GIT: 
